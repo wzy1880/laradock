@@ -2,3 +2,5 @@
 *.csr
 *.key
 *.pem
+!default.pem
+!default-key.pem

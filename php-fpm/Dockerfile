@@ -1165,6 +1165,16 @@ RUN if [ ${DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL} = true ]; then \
 ;fi
 
 ###########################################################################
+# Set Timezone
+###########################################################################
+
+#RUN apk add -U tzdata
+
+ARG TZ=Asia/Shanghai
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 

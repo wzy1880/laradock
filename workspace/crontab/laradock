@@ -1,1 +1,2 @@
 * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+17 0 * * * laradock "/var/www/sbin/myacme"/acme.sh --cron --home "/var/www/sbin/myacme" > /dev/null

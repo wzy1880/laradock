@@ -6,6 +6,17 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 #RUN mkdir -p /usr/local/etc/redis
 #COPY redis.conf /usr/local/etc/redis/redis.conf
 
+
+###########################################################################
+# Set Timezone
+###########################################################################
+
+#RUN apk add -U tzdata
+
+ARG TZ=Asia/Shanghai
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 VOLUME /data
 
 EXPOSE 6379

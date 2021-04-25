@@ -1,9 +1,11 @@
-FROM nginx:alpine
+FROM openresty/openresty:alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
-COPY nginx.conf /etc/nginx/
+#COPY nginx.conf /etc/nginx/
+COPY ./nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
+#RUN  chmod -R 777 /etc/nginx/ssl
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
 ARG CHANGE_SOURCE=false
@@ -33,12 +35,24 @@ RUN touch /var/log/messages
 # Copy 'logrotate' config file
 COPY logrotate/nginx /etc/logrotate.d/
 
+###########################################################################
+# Set Timezone
+###########################################################################
+
+RUN apk add -U tzdata
+
+ARG TZ=Asia/Shanghai
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Set upstream conf and remove the default conf
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
 
-ADD ./startup.sh /opt/startup.sh
-RUN sed -i 's/\r//g' /opt/startup.sh
-CMD ["/bin/bash", "/opt/startup.sh"]
+#ADD ./startup.sh /opt/startup.sh
+#RUN sed -i 's/\r//g' /opt/startup.sh
+#CMD ["/bin/bash"]
+CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
+#RUN   ls -ls /etc/nginx && nginx  && r m
 
 EXPOSE 80 81 443

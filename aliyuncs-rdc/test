@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SRC_DIR="$( cd "$( dirname "$0"  )" && pwd  )"
+# shellcheck disable=SC2034
+APP_DIR=$( dirname "$SRC_DIR"  )
+APP_DIR=$( dirname "$APP_DIR"  )
+
+# shellcheck disable=SC2164
+cd $APP_DIR
+composer install
+php artisan test --configuration=$SRC_DIR/phpunit.xml

@@ -1651,5 +1651,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
 
+ENTRYPOINT ["/usr/local/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
+
 # Set default work directory
 WORKDIR /var/www

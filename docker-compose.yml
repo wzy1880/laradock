@@ -1950,3 +1950,18 @@ services:
       volumes:
         - ./react:/usr/src/app/react
         - /usr/src/app/react/node_modules
+### ngrok #########################################
+    ngrok:
+      build:
+        context: ./ngrok
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+      volumes:
+        - ./ngrok/bin/:/root/ngrok/bin
+      environment:
+        - NGROK_DOMAIN="ngrok.weber.com"
+      networks:
+        - frontend
+      ports:
+        - "8081:8081"
+        - "4443:4443"
